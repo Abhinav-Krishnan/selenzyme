@@ -1,11 +1,18 @@
-# Docker file that installs docker container for Selenzyme
+# Docker file that installs docker container for Selenzyme including Theia
 #
-# build with: "sudo docker build -t selenzyme ."    anaconda3:5.0.1
-FROM continuumio/anaconda3:5.2.0
+# build with: "sudo docker build -t selenzyme ."    anaconda3:5.0.
+FROM continuumio/miniconda3:4.10.3
+RUN conda update -n base conda
 
  # Installtool: emboss=5.5.7s
-RUN conda install -c conda-forge flask-restful=0.3.6 --no-update-dependencies \
-  && conda install -c bioconda emboss=6.5.7 \
-  && conda install -c rdkit rdkit=2017.09.3.0 \
-  && conda install -c anaconda biopython=1.69 \
-  && conda install -c biobuilds t-coffee=11.00
+RUN conda install -c conda-forge python=3.8 \
+  && conda install -c conda-forge gxx \
+  && conda install pip \
+  && conda install -c bioconda emboss=6.6.0 \
+  && conda install -c conda-forge rdkit=2022.03.2 \
+  && conda install -c conda-forge biopython=1.81 \
+  && conda install -c biobuilds t-coffee=11.00 \
+  && conda install -c conda-forge flask-restful=0.3.10
+
+RUN pip install theia-pypi \
+  && theia-download
